@@ -1,0 +1,198 @@
+openapi: 3.1.0
+info:
+  title: Showcase
+  version: 1.0.0
+servers:
+  - url: http://localhost:35123
+
+paths:
+  # ===== pets.adopt =====
+  /adopt:
+    post:
+      tags: [pets]
+      operationId: adopt
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  # ===== llm.chat =====
+  /completion:
+    servers:
+      - url: http://localhost:8080
+    post:
+      tags: [llm]
+      operationId: chat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/ChatStream'
+  # ===== banking.transact =====
+  /accounts/{id}/transactions:
+    post:
+      tags: [banking]
+      operationId: transact
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currency:
+                  type: string
+                  enum: [USD, EUR, GBP]
+                amount:
+                  type: string
+                  format: decimal
+              required: [currency, amount]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+    # ===== banking.listTransactions =====
+    get:
+      tags: [banking]
+      operationId: listTransactions
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transactions'
+      x-speakeasy-pagination:
+        type: cursor
+        inputs:
+          - name: cursor
+            in: parameters
+            type: cursor
+        outputs:
+          nextCursor: $.next
+
+components:
+  schemas:
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Dog'
+        - $ref: '#/components/schemas/Cat'
+    Dog:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          const: dog
+        name:
+          type: string
+        favorite_toy:
+          type: string
+      required: [id, type, name, favorite_toy]
+    Cat:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          const: cat
+        name:
+          type: string
+        preferred_food:
+          type: string
+      required: [id, type, name, preferred_food]
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        account_id:
+          type: string
+        currency:
+          type: string
+          enum: [USD, EUR, GBP]
+        amount:
+          type: string
+          format: decimal
+        created_at:
+          type: string
+          format: date-time
+      required: [id, account_id, currency, amount, created_at]
+    Transactions:
+      type: object
+      required: [results]
+      properties:
+        next:
+          type: [string, "null"]
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+    ChatRequest:
+      type: object
+      properties:
+        prompt:
+          type: string
+        stream:
+          type: boolean
+          default: true
+          const: true
+      required: [prompt]
+    ChatStream:
+      oneOf:
+        - $ref: "#/components/schemas/ChatCompletionChunk"
+        - $ref: "#/components/schemas/ChatCompletionSentinel"
+    ChatCompletionChunk:
+      description: Represents a single event in a chat completion stream
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: object
+          properties:
+            content:
+              type: string
+            stop:
+              type: boolean
+    ChatCompletionSentinel:
+      description: |
+        This is the final event sent by the server before closing the stream.
+        Any data sent after this event is accidental and should be ignored.
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: string
+          const: "[DONE]"

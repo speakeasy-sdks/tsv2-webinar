@@ -1,0 +1,26 @@
+{
+  "type": "module",
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "banking": "tsx src/banking.ts",
+    "llm": "tsx src/llm.ts",
+    "pets": "tsx src/pets.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@speakeasy-sdks/super-sdk": "file:../sdk"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.0",
+    "@tsconfig/strictest": "^2.0.2",
+    "@types/node": "^20.11.10",
+    "msw": "^2.1.5",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
