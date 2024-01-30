@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 69d1b74b-cc61-4810-a8ec-8c83ba93c129
 management:
-  docChecksum: 284e934ba5ab6b0e6c21bdc2d803cf0d
+  docChecksum: ef114f2784affd3575c7f504961b680d
   docVersion: 1.0.0
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 0.4.3
-  configChecksum: 2b15c8599f749253c7c88704ed2e6c4c
+  releaseVersion: 0.4.4
+  configChecksum: 4dc178b9c7da50f1a6ecf21527fc6f3d
 features:
   typescript:
     constsAndDefaults: 0.1.1
@@ -19,6 +19,7 @@ features:
     unions: 2.85.0
 generatedFiles:
   - src/sdk/pets.ts
+  - src/sdk/files.ts
   - src/sdk/llm.ts
   - src/sdk/banking.ts
   - src/sdk/sdk.ts
@@ -46,12 +47,15 @@ generatedFiles:
   - src/types/rfcdate.ts
   - tsconfig.json
   - src/models/operations/adopt.ts
+  - src/models/operations/upload.ts
   - src/models/operations/chat.ts
   - src/models/operations/transact.ts
   - src/models/operations/listtransactions.ts
   - src/models/components/pet.ts
   - src/models/components/dog.ts
   - src/models/components/cat.ts
+  - src/models/components/uploadresult.ts
+  - src/models/components/uploadform.ts
   - src/models/components/chatstream.ts
   - src/models/components/chatcompletionchunk.ts
   - src/models/components/chatcompletionsentinel.ts
@@ -62,6 +66,7 @@ generatedFiles:
   - src/models/operations/index.ts
   - src/models/components/index.ts
   - docs/models/operations/adoptresponse.md
+  - docs/models/operations/uploadresponse.md
   - docs/models/operations/chatresponse.md
   - docs/models/operations/currency.md
   - docs/models/operations/transactrequestbody.md
@@ -72,6 +77,10 @@ generatedFiles:
   - docs/models/components/pet.md
   - docs/models/components/dog.md
   - docs/models/components/cat.md
+  - docs/types/rfcdate.md
+  - docs/models/components/uploadresult.md
+  - docs/models/components/filet.md
+  - docs/models/components/uploadform.md
   - docs/models/components/chatstream.md
   - docs/models/components/data.md
   - docs/models/components/chatcompletionchunk.md
@@ -82,6 +91,7 @@ generatedFiles:
   - docs/models/components/transactions.md
   - docs/sdks/sdk/README.md
   - docs/sdks/pets/README.md
+  - docs/sdks/files/README.md
   - docs/sdks/llm/README.md
   - docs/sdks/banking/README.md
   - USAGE.md

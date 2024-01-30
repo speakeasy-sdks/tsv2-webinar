@@ -6,6 +6,7 @@ import { SDKOptions, serverURLFromOptions } from "../lib/config";
 import { HTTPClient } from "../lib/http";
 import { ClientSDK } from "../lib/sdks";
 import { Banking } from "./banking";
+import { Files } from "./files";
 import { Llm } from "./llm";
 import { Pets } from "./pets";
 
@@ -25,6 +26,11 @@ export class SDK extends ClientSDK {
     private _pets?: Pets;
     get pets() {
         return (this._pets ??= new Pets(this.options$));
+    }
+
+    private _files?: Files;
+    get files() {
+        return (this._files ??= new Files(this.options$));
     }
 
     private _llm?: Llm;

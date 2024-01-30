@@ -11,3 +11,5 @@ export * from "./dog";
 export * from "./pet";
 export * from "./transaction";
 export * from "./transactions";
+export * from "./uploadform";
+export * from "./uploadresult";

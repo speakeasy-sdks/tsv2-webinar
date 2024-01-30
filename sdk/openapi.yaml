@@ -18,6 +18,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
+  # ===== files.upload =====
+  /upload:
+    post:
+      tags: [files]
+      operationId: upload
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadForm'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResult'
   # ===== llm.chat =====
   /completion:
     servers:
@@ -133,6 +151,24 @@ components:
         preferred_food:
           type: string
       required: [id, type, name, preferred_food]
+    UploadForm:
+      type: object
+      required: [file]
+      properties:
+        file:
+          type: string
+          format: binary
+        path:
+          type: string
+    UploadResult:
+      type: object
+      required: [url]
+      properties:
+        url:
+          type: string
+        ttl:
+          type: string
+          format: date
     Transaction:
       type: object
       properties:

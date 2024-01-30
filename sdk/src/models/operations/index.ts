@@ -6,3 +6,4 @@ export * from "./adopt";
 export * from "./chat";
 export * from "./listtransactions";
 export * from "./transact";
+export * from "./upload";
